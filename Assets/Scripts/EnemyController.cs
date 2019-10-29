@@ -8,6 +8,9 @@ public class EnemyController : MonoBehaviour {
     private GameObject TargetObject; // 目標オブジェクト
     NavMeshAgent EnemyAgent; //NavMeshAgent
     private Animator myAnimator;
+
+    //GameManager
+    private GameObject gamemanager;
     
 
 	// Use this for initialization
@@ -15,7 +18,7 @@ public class EnemyController : MonoBehaviour {
         EnemyAgent = GetComponent<NavMeshAgent>();
         TargetObject = GameObject.Find("Playerprefab");
         myAnimator = GetComponent<Animator>();
-        myAnimator.SetFloat("Speed", 0.21f);
+        gamemanager = GameObject.Find("GameManager");
 
 
 	}
@@ -27,10 +30,17 @@ public class EnemyController : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if(EnemyAgent.pathStatus != NavMeshPathStatus.PathInvalid)
+        if (gamemanager.GetComponent<GameManager>().currentstatus == GameManager.GameStatus.ScoreAttackonGoing
+            || gamemanager.GetComponent<GameManager>().currentstatus == GameManager.GameStatus.TimeAttackonGoing
+            || gamemanager.GetComponent<GameManager>().currentstatus == GameManager.GameStatus.CanGoal)
         {
-            //NavMeshAgentに目的地をセット
-            EnemyAgent.SetDestination(TargetObject.transform.position);
+            myAnimator.SetFloat("Speed", 0.21f);
+            if (EnemyAgent.pathStatus != NavMeshPathStatus.PathInvalid)
+            {
+                //NavMeshAgentに目的地をセット
+                EnemyAgent.SetDestination(TargetObject.transform.position);
+            }
         }
     }
+
 }

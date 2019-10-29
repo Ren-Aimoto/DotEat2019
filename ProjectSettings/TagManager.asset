@@ -9,6 +9,9 @@ TagManager:
   - Burger
   - Pizza
   - Rice
+  - VerticalEnemy
+  - HorizontalEnemy
+  - BossEnemy
   layers:
   - Default
   - TransparentFX
